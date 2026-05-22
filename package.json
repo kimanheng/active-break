@@ -1,0 +1,42 @@
+{
+  "name": "active-break-app",
+  "version": "1.0.0",
+  "description": "A premium health break app to remind users to stay active.",
+  "author": "Kiman",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --windows"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^42.2.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.activebreak.app",
+    "productName": "Active Break",
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "renderer/logo.png"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "pkg"
+      ],
+      "icon": "renderer/logo.png"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}

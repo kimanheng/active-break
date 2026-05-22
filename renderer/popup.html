@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time for a Break!</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="lucide.min.js"></script>
+</head>
+<body>
+  <!-- Overlay wrapper covering entire screen -->
+  <div class="overlay">
+    
+    <!-- Centered Break Card -->
+    <div class="break-card" id="breakCard">
+      
+      <!-- Top Section: Illustration & Circular Timer -->
+      <div class="card-header-layout">
+        <!-- SVG Task Illustration (loaded dynamically) -->
+        <div class="task-illustration-container" id="taskIllustration">
+          <!-- SVG injected by JS -->
+        </div>
+        
+        <!-- Break Timer Countdown -->
+        <div class="break-timer-ring">
+          <svg class="timer-svg" width="90" height="90">
+            <circle class="timer-bg" cx="45" cy="45" r="38"></circle>
+            <circle class="timer-progress" id="breakTimerProgress" cx="45" cy="45" r="38"></circle>
+          </svg>
+          <div class="timer-text" id="breakTimerText">2:00</div>
+        </div>
+      </div>
+
+      <!-- Content Section -->
+      <div class="card-body">
+        <div class="badge" id="taskBadge">Active Break</div>
+        <h1 class="task-title" id="taskTitle">Loading task...</h1>
+        <p class="task-description" id="taskDescription">
+          Please wait while we select your break task.
+        </p>
+      </div>
+
+      <!-- Action Buttons Footer -->
+      <div class="card-footer">
+        <button class="btn btn-complete" id="completeBtn">
+          <i data-lucide="check" style="width: 20px; height: 20px; stroke-width: 2.5px;"></i>
+          I did it!
+        </button>
+        
+        <div class="secondary-actions">
+          <button class="btn btn-postpone" id="postponeBtn" title="Postpone break by 5 mins">
+            Postpone 5m
+          </button>
+          <button class="btn btn-skip" id="skipBtn" title="Skip this break">
+            Skip
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

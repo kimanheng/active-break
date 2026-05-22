@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active Break Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="lucide.min.js"></script>
+</head>
+<body>
+  <!-- Custom Title Bar -->
+  <div class="title-bar">
+    <div class="title-logo">
+      <div class="logo-wrapper" style="position: relative; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px;">
+        <img id="titleLogoImg" src="logo.svg" style="display: none; width: 18px; height: 18px; object-fit: contain;" onload="this.style.display='inline-block'; document.getElementById('titleLogoIcon').style.display='none';" onerror="this.style.display='none'; document.getElementById('titleLogoIcon').style.display='inline-block';">
+        <i id="titleLogoIcon" data-lucide="clock" style="width: 18px; height: 18px; stroke-width: 2.5px;"></i>
+      </div>
+      <span>Active Break</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Left Section: Timer & Stats -->
+    <div class="left-panel">
+      <div class="card timer-card">
+        <div class="timer-ring-container">
+          <svg class="timer-svg" width="160" height="160" viewBox="0 0 160 160">
+            <circle class="timer-bg" cx="80" cy="80" r="70"></circle>
+            <circle class="timer-progress" id="timerProgress" cx="80" cy="80" r="70"></circle>
+          </svg>
+          <div class="timer-text-container">
+            <span class="timer-value" id="timerDisplay">20:00</span>
+            <span class="timer-label" id="statusLabel">Next Break</span>
+          </div>
+        </div>
+
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="playPauseBtn">
+            <i id="playPauseIcon" data-lucide="pause" style="width: 16px; height: 16px; stroke-width: 2.5px;"></i>
+            <span id="playPauseText">Pause</span>
+          </button>
+          <button class="btn btn-secondary" id="breakNowBtn" title="Start a break immediately">
+            Break Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Grid (Only 2 columns now) -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon icon-green">
+            <i data-lucide="check-circle" style="width: 20px; height: 20px; stroke-width: 2.5px;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="statBreaks">0</span>
+            <span class="stat-title">Breaks Taken</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-orange">
+            <i data-lucide="flame" style="width: 20px; height: 20px; stroke-width: 2.5px;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="statStreak">1d</span>
+            <span class="stat-title">Streak</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section: Settings & Tasks List -->
+    <div class="right-panel">
+      <div class="card settings-card">
+        <div class="tab-header">
+          <button class="tab-btn active" id="tabTasksBtn">
+            <i data-lucide="list-todo" style="width: 14px; height: 14px; stroke-width: 2.5px;"></i>
+            Tasks
+          </button>
+          <button class="tab-btn" id="tabSettingsBtn">
+            <i data-lucide="settings" style="width: 14px; height: 14px; stroke-width: 2.5px;"></i>
+            Settings
+          </button>
+        </div>
+        
+        <!-- Tasks Tab Content -->
+        <div class="tab-panel active" id="tasksTabPanel">
+          <!-- Frequency Configuration -->
+          <div class="settings-group">
+            <div class="settings-header">
+              <span>Break Interval</span>
+              <span class="settings-value" id="intervalValue">20 mins</span>
+            </div>
+            <input type="range" id="intervalInput" min="10" max="120" step="5" value="20" class="slider">
+            <div class="slider-labels">
+              <span>10m</span>
+              <span>60m</span>
+              <span>120m</span>
+            </div>
+          </div>
+
+          <!-- Task Enable Preferences -->
+          <div class="tasks-selection">
+            <div class="tasks-header-row">
+              <h3>Active Break Tasks</h3>
+              <button class="add-task-btn" id="addTaskBtn" title="Create a custom task">
+                <i data-lucide="plus" style="width: 12px; height: 12px; stroke-width: 3px;"></i>
+                Add Task
+              </button>
+            </div>
+            
+            <!-- Dynamic task list loaded by JS -->
+            <div class="tasks-list" id="tasksListContainer">
+              <!-- Dynamic task rows injected here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Tab Content -->
+        <div class="tab-panel" id="settingsTabPanel">
+          <!-- Brand Section -->
+          <div class="brand-section">
+            <div class="brand-logo-container">
+              <img id="settingsLogoImg" src="logo.svg" style="display: none; width: 44px; height: 44px; object-fit: contain;" onload="this.style.display='block'; document.getElementById('settingsLogoIcon').style.display='none';" onerror="this.style.display='none'; document.getElementById('settingsLogoIcon').style.display='flex';">
+              <div id="settingsLogoIcon" class="logo-fallback-circle">
+                <i data-lucide="clock" style="width: 22px; height: 22px; stroke-width: 2.5px; color: var(--accent-color);"></i>
+              </div>
+            </div>
+            <div class="brand-info">
+              <h2>Active Break</h2>
+              <span>Version 1.0.0</span>
+            </div>
+          </div>
+
+          <!-- Theme Section -->
+          <div class="settings-section">
+            <h3 class="section-title">Accent Theme</h3>
+            <div class="theme-grid">
+              <button class="theme-swatch-btn selected" data-theme="blue" title="Soft Blue" style="background-color: #0b57d0;">
+                <span class="theme-swatch-label">Blue</span>
+              </button>
+              <button class="theme-swatch-btn" data-theme="green" title="Emerald Green" style="background-color: #137333;">
+                <span class="theme-swatch-label">Green</span>
+              </button>
+              <button class="theme-swatch-btn" data-theme="peach" title="Warm Peach" style="background-color: #d96525;">
+                <span class="theme-swatch-label">Peach</span>
+              </button>
+              <button class="theme-swatch-btn" data-theme="purple" title="Lavender Purple" style="background-color: #7c3aed;">
+                <span class="theme-swatch-label">Purple</span>
+              </button>
+              <button class="theme-swatch-btn" data-theme="rose" title="Dusty Rose" style="background-color: #b4637a;">
+                <span class="theme-swatch-label">Rose</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preferences Section -->
+          <div class="settings-section">
+            <h3 class="section-title">Preferences</h3>
+            <div class="setting-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-weight: 500; font-size: 13px; color: var(--text-primary);">Launch at Startup</span>
+                <span style="font-size: 11px; color: var(--text-secondary);">Start Active Break automatically when your computer boots.</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="startupInput">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Data Management Controls -->
+          <div class="settings-section data-section">
+            <h3 class="section-title">Data Management</h3>
+            <p class="section-description">Reset statistics or restore all settings back to defaults.</p>
+            <div class="data-actions-grid">
+              <button class="btn btn-secondary" id="resetStatsBtn" style="padding: 8px 12px; font-size: 12px;">
+                <i data-lucide="bar-chart-2" style="width: 14px; height: 14px;"></i>
+                Reset Stats Only
+              </button>
+              <button class="btn btn-danger" id="resetAllBtn" style="padding: 8px 12px; font-size: 12px;">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                Reset All Data
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Creator Modal Dialog -->
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add Custom Task</h3>
+        <button class="modal-close-btn" id="modalCloseBtn" title="Cancel">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editTaskId">
+        
+        <div class="form-group">
+          <label for="taskTitleInput">Task Name / Title</label>
+          <input type="text" id="taskTitleInput" placeholder="e.g. Stretch your back" maxlength="40">
+        </div>
+        
+        <div class="form-group">
+          <label for="taskDescInput">Instructions (Brief details)</label>
+          <textarea id="taskDescInput" placeholder="e.g. Stand up, stretch overhead, and hold for 20 seconds. Repeat 3 times." rows="3" maxlength="150"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Theme Color</label>
+          <div class="color-picker-grid" id="colorPickerGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Select Icon</label>
+          <div class="icon-picker-grid" id="iconPickerGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary-modal" id="modalCancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="modalSaveBtn">Save Task</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

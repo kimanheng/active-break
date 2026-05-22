@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#b4637a" flood-opacity="0.3" />
+    </filter>
+  </defs>
+  <!-- Beautiful glowing filled circle with color #b4637a -->
+  <circle cx="64" cy="64" r="46" fill="#b4637a" filter="url(#glow)" />
+</svg>
